@@ -1,0 +1,44 @@
+{% set versions = {
+    "HEAD": "HEAD"
+} %}
+
+{% set version = environ.get('COMMIT_VERSION', None) %}
+{% set version = version or versions.keys()|first %}
+{% set version = version|string %}
+
+package:
+  name: {{ environ.get('ANACONDA_PACKAGE', "cparser")|string|lower }}
+  version: {{ environ.get('ANACONDA_VERSION', version)|replace("-", ".") }}
+
+source:
+  git_url: "https://git.ligo.org/kagra/libraries-addons/root/cparser"
+  git_rev: {{ version }}
+
+requirements:
+  build:
+    - {{ compiler('cxx') }} # [linux]
+    - {{ compiler('c') }}   # [linux]
+    - {{ stdlib('c') }}
+
+    - clang
+    - cmake
+    - make
+
+    - cuda-nvcc
+
+  host:
+    - root-plus
+
+  run:
+    - root-plus
+
+about:
+  home: "https://git.ligo.org/kagra/libraries-addons/root/cparser"
+  license: "GPL-3.0"
+  summary: "Configuration Parser"
+  description: |
+    CParser is a configuration parser enabling for parsing and writing typical configuration files such as XML, YAML, etc..
+
+extra:
+  recipe-maintainers:
+    - meiyasan
