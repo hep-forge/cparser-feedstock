@@ -1,5 +1,6 @@
 {% set versions = {
-    "HEAD": "HEAD"
+    "HEAD": "HEAD",
+    "0.1": "6453df276aef709aee8904986bc4672f58f6d130"
 } %}
 
 {% set version = environ.get('COMMIT_VERSION', None) %}
@@ -12,7 +13,7 @@ package:
 
 source:
   git_url: "https://git.ligo.org/kagra/libraries-addons/root/cparser"
-  git_rev: {{ version }}
+  git_rev: "v{{ version }}"
 
 requirements:
   build:
@@ -20,11 +21,8 @@ requirements:
     - {{ compiler('c') }}   # [linux]
     - {{ stdlib('c') }}
 
-    - clang
     - cmake
     - make
-
-    - cuda-nvcc
 
   host:
     - root-plus
